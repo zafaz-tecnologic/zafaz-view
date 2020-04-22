@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:radio/components/grid_view_series.dart';
 import 'package:radio/components/progress.dart';
 import 'package:radio/components/simple_error_centered.dart';
 import 'package:radio/http/study_webclient.dart';
 import 'package:radio/model/series.dart';
 import 'package:radio/model/study.dart';
 import 'package:radio/model/unidade.dart';
-import 'package:radio/view/single_image_visualizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SeriesList extends StatefulWidget {
   final Unidade unidade;
@@ -39,23 +40,10 @@ class _SeriesListState extends State<SeriesList> {
               if (snapshot.hasData) {
                 final Study study = snapshot.data;
                 if (study.series.isNotEmpty) {
-                  final List<Series> series = study.series;
-                  return GridView.builder(
-                    itemCount: series.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemBuilder: (BuildContext context, int index) {
-                      final ip = widget.unidade.ip;
-//                      final porta = widget.unidade.porta;
-                      final porta = "9007";
-                      final studyUuid = study.uuid;
-                      final seriesUuid = study.series[index].uuid;
-                      final objectUuid = study.series[index].instances[0].uuid;
-                      String url =
-                          "http://$ip:$porta/wado/wado?requestType=WADO&studyUID=$studyUuid&seriesUID=$seriesUuid&objectUID=$objectUuid&contentType=image/jpeg";
-
-                      return MyCardSeries(url);
-                    },
+                  _saveStudy(study);
+                  return MyGridViewSeries(
+                    unidade: widget.unidade,
+                    study: study,
                   );
                 }
               }
@@ -69,29 +57,47 @@ class _SeriesListState extends State<SeriesList> {
       ),
     );
   }
-}
 
-class MyCardSeries extends StatelessWidget {
-  final String _url;
+  void _saveStudy(Study study) async {
+    final preferences = await SharedPreferences.getInstance();
+    var studyList = preferences.getStringList("study");
 
-  MyCardSeries(this._url);
+    if (studyList != null) {
+      for (String savedStudy in studyList) {
+        if (savedStudy == study.uuid) {
+          return;
+        }
+      }
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8),
-      color: Colors.black,
-      child: InkWell(
-        onTap: () => _abrirImagem(context, _url),
-        splashColor: Theme.of(context).accentColor,
-        child: Ink.image(image: NetworkImage('$_url&rowns=200&columns=200')),
-      ),
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Salvar exame"),
+          content: Text(
+              "Salvar o exame para não precisar digitar a chave novamente?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Cancelar"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text("Salvar"),
+              onPressed: () {
+                if (studyList == null) {
+                  studyList = List();
+                }
+                studyList.add(study.uuid);
+                preferences.setStringList("study", studyList);
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
-}
 
-_abrirImagem(BuildContext context, String url) {
-  Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => InstanceView(url),
-  ));
 }

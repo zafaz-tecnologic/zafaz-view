@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:radio/components/progress.dart';
 import 'package:radio/http/unidade_webclient.dart';
 import 'package:radio/model/unidade.dart';
+import 'package:radio/view/saved_study_list.dart';
 import 'package:radio/view/search_image.dart';
 import 'package:radio/view/series_list.dart';
 
@@ -46,6 +47,24 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           widget.title,
           style: TextStyle(color: Theme.of(context).accentColor),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Image.asset('images/logo_zafaz.png'),
+            ),
+            ListTile(
+              leading: Icon(Icons.archive),
+              title: Text("Meus exames salvos"),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => SavedStudyList(),)),
+            )
+          ],
         ),
       ),
       body: FutureBuilder(
