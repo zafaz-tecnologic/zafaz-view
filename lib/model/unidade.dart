@@ -1,4 +1,6 @@
 class Unidade {
+  Unidade();
+
   int id;
   String nome;
   String sigla;

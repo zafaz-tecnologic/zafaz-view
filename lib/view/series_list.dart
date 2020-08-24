@@ -8,6 +8,8 @@ import 'package:radio/model/series.dart';
 import 'package:radio/model/study.dart';
 import 'package:radio/model/unidade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SeriesList extends StatefulWidget {
   final Unidade unidade;
@@ -41,10 +43,47 @@ class _SeriesListState extends State<SeriesList> {
                 final Study study = snapshot.data;
                 if (study.series.isNotEmpty) {
                   _saveStudy(study);
-                  return MyGridViewSeries(
-                    unidade: widget.unidade,
-                    study: study,
-                  );
+                  if (study.modality == 'DR' ||
+                      study.modality == 'CR' ||
+                      study.modality == 'DX') {
+                    return MyGridViewSeries(
+                      unidade: widget.unidade,
+                      study: study,
+                    );
+                  } else {
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Visibility(
+                            visible: study.laudos.isNotEmpty,
+                            child: Html(
+                              data: study.laudos.isEmpty
+                                  ? ''
+                                  : study.laudos[0].texto,
+                            ),
+                          ),
+                          Visibility(
+                            visible: study.laudos.isEmpty,
+                            child:
+                                Center(child: Text("Nenhum laudo encontrado.")),
+                          ),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () =>
+                                _launchURL(widget.unidade.ip, study.uuid),
+                            child: Text(
+                              "Abrir exame",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }
                 }
               }
               return Center(
@@ -56,6 +95,15 @@ class _SeriesListState extends State<SeriesList> {
         },
       ),
     );
+  }
+
+  _launchURL(String ip, String uuid) async {
+    final url = 'http://$ip:9007/ZafazPacs/viewer.html?studyUID=$uuid';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _saveStudy(Study study) async {
@@ -99,5 +147,4 @@ class _SeriesListState extends State<SeriesList> {
       },
     );
   }
-
 }

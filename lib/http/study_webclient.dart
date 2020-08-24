@@ -5,9 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:radio/model/study.dart';
 import 'package:radio/model/unidade.dart';
 
-
 class StudyWebClient {
-
   final Unidade _unidade;
 
   StudyWebClient(this._unidade);
@@ -28,6 +26,4 @@ class StudyWebClient {
       client.close();
     }
   }
-
-
 }

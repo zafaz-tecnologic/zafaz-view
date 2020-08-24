@@ -5,7 +5,6 @@ import 'package:radio/model/unidade.dart';
 import 'series_list.dart';
 
 class SearchImageForm extends StatelessWidget {
-
   var _controller = TextEditingController();
   final Unidade _unidade;
 
@@ -17,7 +16,7 @@ class SearchImageForm extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           _unidade.sigla,
-          style: TextStyle(color: Theme.of(context).accentColor),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: Center(
@@ -30,8 +29,7 @@ class SearchImageForm extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                 ),
                 child: Padding(
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,18 +40,18 @@ class SearchImageForm extends StatelessWidget {
                           autofocus: true,
                           style: TextStyle(
                             fontSize: 24.0,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).textTheme.headline6.color,
                           ),
                           maxLines: 3,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                              labelText: "Chave:",
-                              labelStyle: TextStyle(color: Theme.of(context).accentColor)),
+                            labelText: "Chave:",
+                            labelStyle: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
+                          ),
                         ),
                         RaisedButton(
                           onPressed: () => adicionarExame(_unidade, context),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           child: Text(
                             "Procurar exame",
                             style: TextStyle(
@@ -76,7 +74,6 @@ class SearchImageForm extends StatelessWidget {
   }
 
   adicionarExame(Unidade unidade, BuildContext context) {
-
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => SeriesList(unidade, _controller.text),
     ));

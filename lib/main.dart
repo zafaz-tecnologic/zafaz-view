@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radio/components/progress.dart';
@@ -18,8 +20,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ZAFAZ View',
       theme: ThemeData(
-        primaryColor: Colors.grey[300],
-        accentColor: Colors.red[900],
+        buttonTheme: ButtonThemeData(
+          buttonColor: const Color(0xFFFF5252),
+        ),
+        textTheme: TextTheme(
+          button: TextStyle(color: const Color(0xFFFFFFFF)),
+          headline6: TextStyle(color: Colors.white),
+        ),
+        primaryTextTheme: TextTheme(
+          button: TextStyle(color: const Color(0xFFFFFFFF)),
+        ),
+        primaryColor: const Color(0xFF009688),
+        primaryColorLight: const Color(0xFFB2DFDB),
+        accentColor: const Color(0xFFFF5252),
+        primaryColorDark: const Color(0xFF00796B),
+        dividerColor: const Color(0xFFBDBDBD),
       ),
       home: MyHomePage(
         title: "ZAFAZ View",
@@ -46,7 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(color: Theme.of(context).accentColor),
         ),
       ),
       drawer: Drawer(
@@ -62,7 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ListTile(
               leading: Icon(Icons.archive),
               title: Text("Meus exames salvos"),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => SavedStudyList(),)),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SavedStudyList(),
+              )),
             )
           ],
         ),
@@ -104,7 +120,8 @@ class Home extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
-          child: Image.asset('images/logo_zafaz.png'),
+//          child: Image.asset('images/logo_zafaz.png'),
+          child: Image.asset("images/FHAJ_400x400.jpg"),
         ),
         Expanded(
           child: Container(
@@ -123,13 +140,11 @@ class Home extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Unidades disponíveis",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  Text("Unidades disponíveis",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: Colors.white70)),
                   Container(
                     margin: EdgeInsets.only(top: 16.0),
                     height: 200.0,
@@ -158,7 +173,10 @@ class UnidadeItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _unidade.nome = "FUNDAÇÃO HOSPITAL ADRIANO JORGE";
+    _unidade.sigla = "FHAJ";
     return Card(
+      elevation: 8.0,
       child: Container(
         width: 160.0,
         child: Column(
@@ -169,9 +187,6 @@ class UnidadeItemList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 _unidade.nome,
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                ),
               ),
             ),
             Center(
@@ -184,9 +199,10 @@ class UnidadeItemList extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () => _pesquisarNaUnidade(context),
-                child: Text("Pesquisar"),
-                color: Theme.of(context).accentColor,
-                textColor: Colors.white,
+                child: Text(
+                  "Pesquisar",
+                  style: Theme.of(context).textTheme.button,
+                ),
               ),
             ),
           ],
