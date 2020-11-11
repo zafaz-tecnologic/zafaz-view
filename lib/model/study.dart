@@ -1,3 +1,4 @@
+import 'package:radio/model/atachments.dart';
 import 'package:radio/model/laudo.dart';
 import 'package:radio/model/series.dart';
 
@@ -9,6 +10,7 @@ class Study {
   String modality;
   List<Laudo> laudos;
   List<Series> series;
+  List<Atachments> atachments;
 
   Study.fromJson(Map<String, dynamic> json) {
     pk = json['pk'];
@@ -20,6 +22,16 @@ class Study {
     laudos = (json['laudos'] as List<dynamic>)
         .map((e) => Laudo.fromJson(e))
         .toList();
+    // atachments = (json['anexos'] as List<dynamic>)
+    //     .map((e) => Atachments.fromJson(e))
+    //     .toList();
+    atachments = [
+      Atachments(
+        47,
+        'MARIA LUIZA GOMES PEREIRA - TÓRAX - 02-05-2020.pdf',
+        DateTime.parse('2020-05-22T13:50:21.452+0000'),
+      )
+    ];
   }
 
   @override

@@ -34,8 +34,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   build_runner: ^1.0.0
   json_serializable: ^3.2.0
+
+# Necessary to run build_runner, as issue open: https://github.com/flutter/flutter/issues/63556  
+dependency_overrides:
+  analyzer: '0.39.14'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

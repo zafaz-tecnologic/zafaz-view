@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter/widgets.dart';
 import 'package:radio/model/unidade.dart';
 import 'package:http/http.dart' as http;
-
-import 'endpoints.dart';
 
 class UnidadeWebClient {
   Future<List<Unidade>> listar() async {
@@ -19,7 +14,7 @@ class UnidadeWebClient {
       // }
       var unidade = Unidade();
       // unidade.ip = '177.66.12.138';
-      unidade.ip = '200.165.160.27';
+      unidade.ip = '177.66.12.138';
       unidade.nome = 'FUNDAÇÃO HOSPITAL ADRIANO JORGE';
       unidade.porta = '9005';
       unidade.sigla = 'FHAJ';

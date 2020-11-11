@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:radio/model/series.dart';
 import 'package:radio/model/study.dart';
 import 'package:radio/model/unidade.dart';
 import 'package:radio/view/single_image_visualizer.dart';

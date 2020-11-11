@@ -7,7 +7,7 @@ import 'package:radio/http/unidade_webclient.dart';
 import 'package:radio/model/unidade.dart';
 import 'package:radio/view/saved_study_list.dart';
 import 'package:radio/view/search_image.dart';
-import 'package:radio/view/series_list.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +18,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      locale: const Locale('pt','BR'),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('pt','BR')
+      ],
       title: 'ZAFAZ View',
       theme: ThemeData(
         buttonTheme: ButtonThemeData(
@@ -185,15 +195,9 @@ class UnidadeItemList extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                _unidade.nome,
-              ),
+              child: Text(_unidade.nome),
             ),
-            Center(
-                child: Icon(
-              Icons.business,
-              size: 54,
-            )),
+            Center(child: Icon(Icons.business, size: 54)),
             Center(
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
