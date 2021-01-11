@@ -5,9 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:radio/model/study.dart';
 import 'package:radio/model/unidade.dart';
 
-
 class StudyWebClient {
-
   final Unidade _unidade;
 
   StudyWebClient(this._unidade);
@@ -16,7 +14,7 @@ class StudyWebClient {
     var client = http.Client();
     try {
       final ip = _unidade.ip;
-      final porta = _unidade.porta;
+      final porta = _unidade.portaTomcat;
       final url = "http://$ip:$porta/Raioz/study?uuid=$uuid";
       debugPrint(url);
       var uriResponse = await client.get(url);
@@ -28,6 +26,4 @@ class StudyWebClient {
       client.close();
     }
   }
-
-
 }

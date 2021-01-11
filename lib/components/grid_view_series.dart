@@ -15,12 +15,11 @@ class MyGridViewSeries extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       itemCount: study.series.length,
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (BuildContext context, int index) {
         final ip = unidade.ip;
 //                      final porta = widget.unidade.porta;
-        final porta = "9007";
+        final porta = unidade.portaJboss;
         final studyUuid = study.uuid;
         final seriesUuid = study.series[index].uuid;
         final objectUuid = study.series[index].instances[0].uuid;
