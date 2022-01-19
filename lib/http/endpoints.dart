@@ -1,7 +1,7 @@
 class Endpoints {
   static const _app = "ZafazView";
-  static const _baseURL = "http://vlxrr.dyndns.org";
-  static const _basePort = "9090";
+  static const _baseURL = "servidor";
+  static const _basePort = "port";
 
   static var unidades = _baseURL + ":" + _basePort + "/" + _app + "/unidades";
 }
